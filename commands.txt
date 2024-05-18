@@ -1,0 +1,6 @@
+# python3 -m venv venv
+# source venv/bin/activate
+
+pip install praw
+
+https://www.reddit.com/r/Anticonsumption/comments/1cu0tiz/apple_store_vandalized_in_berlin/
