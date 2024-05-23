@@ -22,13 +22,18 @@ except ValueError:
 
 posts = reddit.fetch_posts_within_date_range(subreddit, start_date_object, end_date_object)
 
-# Iterate over the top posts
-for post in posts:
-    # print(type(post))
-    print(f'Title: {post.title}')
-    print(f'Author: {post.author}')
-    print(f'URL: {post.url}')
-    # print(f'date: {post.date}')
-    print('------------------')
-
 print(f'Number of posts: {len(posts)}')
+
+all_comments = reddit.extract_comments_from_posts(posts=posts)
+
+# # Iterate over the top posts
+# for post in posts:
+#     # print(type(post))
+#     print(f'Title: {post.title}')
+#     print(f'Author: {post.author}')
+#     print(f'URL: {post.url}')
+#     # print(f'date: {post.date}')
+#     print('------------------')
+
+# proposition: instead of picking all the posts and getting the comments inside each of them,
+# get the comments directly from the subreddit object within the date range.

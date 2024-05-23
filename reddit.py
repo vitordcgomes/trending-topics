@@ -46,3 +46,24 @@ def fetch_posts_within_date_range(subreddit, start_date, end_date):
             filtered_posts.append(submission)
     
     return filtered_posts
+
+def extract_comments_from_posts(posts):
+    # Iterate over the top posts
+    all_comments = []
+    for post in posts:
+        post_comments = []
+        post.comments.replace_more(limit=None)
+        for comment in post.comments.list():
+            post_comments.append(comment.body)
+            
+        all_comments.append(post_comments)
+
+    print(f'Number of list of comments: {len(all_comments)}')
+    
+    total_comments = 0
+    for post_comments in all_comments:
+        total_comments += len(post_comments)
+    
+    print(f'Number of total comments: {total_comments}')
+    
+    return all_comments
