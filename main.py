@@ -1,27 +1,34 @@
-import praw # pip install praw
+import reddit
+import datetime
 
-# setting up authentification: (https://www.geeksforgeeks.org/how-to-get-client_id-and-client_secret-for-python-reddit-api-registration/)
-reddit = praw.Reddit(client_id ='YsxBF1thW9K4hbTCqioZrg',  
-                     client_secret ='aGqKVZ3rw9i2ml32egEYIwnwLLLk-w',  
-                     user_agent ='subreddit trending topics by u/vitordcg')
+input_str = input("enter an subreddit url or name: ")
+subreddit = reddit.get_subreddit(input_str=input_str)
 
-print(reddit)
-
-input_url = input("enter an url: ")
-submission = reddit.submission(url=input_url)
-
-subreddit_name = submission.subreddit.display_name
-
+subreddit_name = subreddit.display_name
 print(f"The subreddit name is: {subreddit_name}")
 
-subreddit = reddit.subreddit(subreddit_name)
 
-top_posts = subreddit.top(limit=50)
+# Get date input from the terminal
+start_date = input("Enter a starting date (format: YYYY-MM-DD): ")
+end_date = input("Enter a final date (format: YYYY-MM-DD): ")
+
+try:
+    # Parse the date input string into a datetime object
+    start_date_object = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+    end_date_object = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+    
+except ValueError:
+    print("Invalid date format. Please enter a date in the format YYYY-MM-DD.")
+
+posts = reddit.fetch_posts_within_date_range(subreddit, start_date_object, end_date_object)
 
 # Iterate over the top posts
-for post in top_posts:
+for post in posts:
+    # print(type(post))
     print(f'Title: {post.title}')
     print(f'Author: {post.author}')
-    print(f'Score: {post.score}')
     print(f'URL: {post.url}')
+    # print(f'date: {post.date}')
     print('------------------')
+
+print(f'Number of posts: {len(posts)}')
