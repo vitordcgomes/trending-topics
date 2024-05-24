@@ -26,14 +26,17 @@ print(f'Number of posts: {len(posts)}')
 
 all_comments = reddit.extract_comments_from_posts(posts=posts)
 
-# # Iterate over the top posts
-# for post in posts:
-#     # print(type(post))
-#     print(f'Title: {post.title}')
-#     print(f'Author: {post.author}')
-#     print(f'URL: {post.url}')
-#     # print(f'date: {post.date}')
-#     print('------------------')
+text = reddit.merge_all_comments_into_text(all_comments=all_comments)
+# print(text)
 
+filtered_text = reddit.remove_stopwords(text)
+# print(filtered_text)
+
+word_dict = reddit.get_words_frequency(filtered_text)
+
+N=100
+for i in range(min(N, len(word_dict))): 
+    print(word_dict[i]) # print the N most frequent words
+    
 # proposition: instead of picking all the posts and getting the comments inside each of them,
 # get the comments directly from the subreddit object within the date range.

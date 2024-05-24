@@ -1,6 +1,8 @@
 import praw # pip install praw
 import re
-import datetime
+from collections import Counter
+from nltk.corpus import stopwords # pip install nltk
+from nltk.tokenize import word_tokenize
 
 # setting up authentification: (https://www.geeksforgeeks.org/how-to-get-client_id-and-client_secret-for-python-reddit-api-registration/)
 reddit = praw.Reddit(client_id ='YsxBF1thW9K4hbTCqioZrg',  
@@ -57,8 +59,6 @@ def extract_comments_from_posts(posts):
             post_comments.append(comment.body)
             
         all_comments.append(post_comments)
-
-    print(f'Number of list of comments: {len(all_comments)}')
     
     total_comments = 0
     for post_comments in all_comments:
@@ -67,3 +67,42 @@ def extract_comments_from_posts(posts):
     print(f'Number of total comments: {total_comments}')
     
     return all_comments
+
+def merge_all_comments_into_text(all_comments):
+    """
+    Merges all comments into a single text string.
+    """
+    merged_text=""
+
+    for post in all_comments:
+        merged_text += " ".join(post)
+    
+    return merged_text
+
+def remove_stopwords(text):
+    """
+    Removes stopwords from a text
+    """
+    stop_words = set(stopwords.words('english'))
+    words = word_tokenize(text, language='english')
+    
+    non_stopwords = [word for word in words if word.lower() not in stop_words]
+    
+    filtered_text = " ".join(non_stopwords)
+    
+    return filtered_text
+
+# Function to create a word frequency dictionary
+def get_words_frequency(text):
+    """
+    Create a word frequency dictionary and sorts it
+    """
+    # Convert text to lower case
+    text = text.lower()
+    # Use regex to find words (this handles punctuation properly)
+    words = re.findall(r'\b\w+\b', text)
+    # Use Counter to count the frequency of each word
+    word_freq = Counter(words)
+    
+    sorted_word_dict = sorted(dict(word_freq).items(), key=lambda item: item[1], reverse=True)
+    return sorted_word_dict
