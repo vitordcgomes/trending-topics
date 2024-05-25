@@ -1,15 +1,19 @@
 from nltk.tokenize import word_tokenize # pip install nltk
 from nltk.corpus import stopwords # run: import nltk + nltk.download('stopwords') in a python terminal
 from wordcloud import WordCloud # pip install wordcloud
+from dotenv import load_dotenv # pip install python-dotenv
 from collections import Counter
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import praw # pip install praw
 import re
+import os
+
 
 # Setting up authentification: (https://www.geeksforgeeks.org/how-to-get-client_id-and-client_secret-for-python-reddit-api-registration/)
-reddit = praw.Reddit(client_id ='YsxBF1thW9K4hbTCqioZrg',  
-                     client_secret ='aGqKVZ3rw9i2ml32egEYIwnwLLLk-w',  
-                     user_agent ='subreddit trending topics by u/vitordcg')
+load_dotenv()
+reddit = praw.Reddit(client_id = os.getenv('REDDIT_CLIENT_ID'),  
+                     client_secret = os.getenv('REDDIT_CLIENT_SECRET'),  
+                     user_agent = os.getenv('REDDIT_USER_AGENT'))
 
 
 def get_subreddit(input_str):
@@ -121,6 +125,8 @@ def generate_wordcloud(word_dict):
     
     wordcloud.generate_from_frequencies(dict(word_dict))
     
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis('off')
-    plt.show()
+    wordcloud.to_file("wordcloud.png")
+    
+    # plt.imshow(wordcloud)
+    # plt.axis('off')
+    # plt.show()

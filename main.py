@@ -25,7 +25,7 @@ all_comments = reddit.extract_comments_from_posts(posts=posts)
 
 text = reddit.merge_all_comments_into_text(all_comments=all_comments)
 
-filtered_text = reddit.remove_stopwords(text=text, lang='portuguese')
+filtered_text = reddit.remove_stopwords(text=text, lang='english')
 
 word_dict = reddit.get_words_frequency(text=filtered_text)
 
