@@ -1,5 +1,5 @@
 # Reddit Trending Topics
-### Creating a trend topic application that displays a wordcloud of the most frequent words in the comment sections of a given subreddit, using [Reddit's API](https://www.reddit.com/dev/api/). 
+### Creating a trending topics application that displays a wordcloud of the most frequent words in the comment sections of a given subreddit, using [Reddit's API](https://www.reddit.com/dev/api/). 
 
 ## Follow the steps to run the code on your own:
 <details>
