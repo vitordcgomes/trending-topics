@@ -1,6 +1,7 @@
-# python3 -m venv venv
-# source venv/bin/activate
-
-pip install praw
-
-https://www.reddit.com/r/Anticonsumption/comments/1cu0tiz/apple_store_vandalized_in_berlin/
+    Operation           |       Windows Command	      |     Linux Command
+________________________|_____________________________|____________________________
+List files in directory |   dir                       |   ls
+Navigate to directory   |   cd path\to\your\project	  |   cd /path/to/your/project
+Create virtual env      |	python -m venv myenv	  |   python3 -m venv myenv
+Activate virtual env    |	myenv\Scripts\activate	  |   source myenv/bin/activate
+Deactivate virtual env  |	deactivate	              |   deactivate

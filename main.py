@@ -5,12 +5,11 @@ input_str = input("enter an subreddit url or name: ")
 subreddit = reddit.get_subreddit(input_str=input_str)
 
 subreddit_name = subreddit.display_name
-print(f"The subreddit name is: {subreddit_name}")
 
-
-# Get date input from the terminal
+# Get terminal inputs
 start_date = input("Enter a starting date (format: YYYY-MM-DD): ")
 end_date = input("Enter a final date (format: YYYY-MM-DD): ")
+N = input(f"Enter a number to display the top N most frequent words in the '{subreddit_name}' subreddit: ")
 
 try:
     # Parse the date input string into a datetime object
@@ -22,21 +21,20 @@ except ValueError:
 
 posts = reddit.fetch_posts_within_date_range(subreddit, start_date_object, end_date_object)
 
-print(f'Number of posts: {len(posts)}')
-
 all_comments = reddit.extract_comments_from_posts(posts=posts)
 
 text = reddit.merge_all_comments_into_text(all_comments=all_comments)
-# print(text)
 
-filtered_text = reddit.remove_stopwords(text)
-# print(filtered_text)
+filtered_text = reddit.remove_stopwords(text=text, lang='portuguese')
 
-word_dict = reddit.get_words_frequency(filtered_text)
+word_dict = reddit.get_words_frequency(text=filtered_text)
 
-N=100
-for i in range(min(N, len(word_dict))): 
-    print(word_dict[i]) # print the N most frequent words
+print(f"Top {N} most frequent words in subreddit '{subreddit_name}':")
+for i in range(min(int(N), len(word_dict))): 
+    word, frequency = word_dict[i]
+    print(f"    {i+1}. '{word}': {frequency}") # print the N most frequent words
+    
+reddit.generate_wordcloud(word_dict=word_dict)
     
 # proposition: instead of picking all the posts and getting the comments inside each of them,
 # get the comments directly from the subreddit object within the date range.
